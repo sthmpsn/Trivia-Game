@@ -11,27 +11,21 @@
 </head>
 <body>
     <div class="container">
-        <div class="row header">
-            <div class="col">Timer</div>
+        <div class="row row-header mb-5 pb-5">
+                <div id="headerLeft" class="col-8"></div>
+            <div id="timer" class="col-4 border border-secondary rounded-circle text-center py-4 font-weight-bold"><h1>10</h1></div>
         </div>
-        <div class="row question">
-            <div class="col">Question goes here</div>
-        </div>
-        <div class="row answers">
-            <div class="col">
-                <div class="row">
-                    <div class="col answers">1</div>
-                </div>
-                <div class="row">
-                        <div class="col answers">2</div>               
-                </div>
-                <div class="row">
-                        <div class="col answers">3</div>
-                </div>
-                <div class="row">
-                        <div class="col answers">4</div>
-                </div>
+        <div class="row row-question">
+            <div id="question" class="col jumbotron bg-warning mb-0 py-3 text-center font-weight-bold">
+                <h4>Rules:</h4>
+                You have X seconds to answer Y questions. Click/Tap the correct answer
             </div>
+        </div>
+        <div class="row row-answers align-items-end">
+            <div class="col-12 answers">1</div>
+            <div class="col-12 answers">2</div>
+            <div class="col-12 answers">3</div>
+            <div class="col-12 answers">4</div>
         </div>
 
 
