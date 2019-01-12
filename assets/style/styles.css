@@ -7,20 +7,47 @@
     background-image: url(../images/background.jpg);
     background-repeat: no-repeat;
     background-size: cover;
+    min-width: 410px;
 }
 
 .answers {
     background-color: white;
     border: 2px solid gray;
-    padding: 26px;
+    padding: 35px 0;
     text-align: center;
 }
 
 #timer {
-    background-color: lightgoldenrodyellow;
+    background-color: #EA7DAA;
+    opacity: .8;
+    color: white;
 }
 
+h4 {
+    display: inline-block;
+}
 
+/* MEDIA QUERIES */
+/* IPAD / Tablets */
+@media screen and (min-width: 768px){
+    #timer {
+        opacity: 1;
+
+    }
+
+    .h4 {
+        font-size: 2.5rem;
+    }
+
+    .h6 {
+        font-size: 1.5rem;
+    }
+
+    .answers {
+        padding: 45px 0;
+    }
+
+}
 
 
 
