@@ -8,6 +8,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     min-width: 410px;
+    height: 100vh;
 }
 
 .answers {
@@ -51,12 +52,16 @@ h4 {
 
 @media screen and (min-width: 992px){
     .row-question {
-        opacity: .9;
+        margin-top: 125px;
     }
 
     .answers {
         border-radius: 35px;
     }
+}
 
-
+@media screen and (min-width: 1200px){
+    .row-question {
+        margin-top: 175px;
+    }
 }
