@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+    // Create Fighter Objects Constructor
     function createQuestion(question, answer, fakeA1, fakeA2, fakeA3){
         this.question = question;
         this.answer = answer;
@@ -99,7 +100,9 @@ $(document).ready(function(){
         '../assets/images/ykdtotv.jpg'
     )
 
-
+    // Add all the question objects to the questions Array
+    var questions = [qSBTB, qET, qHEMAN, qATARI, qBTTF, qINVENTIONS, qKIX, qMARIO, qMASCOT, qYKDTOTV];
+    
 
 
 
