@@ -49,5 +49,14 @@ h4 {
 
 }
 
+@media screen and (min-width: 992px){
+    .row-question {
+        opacity: .9;
+    }
+
+    .answers {
+        border-radius: 35px;
+    }
 
 
+}
