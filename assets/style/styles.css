@@ -30,6 +30,7 @@
     position: fixed;
     left: 16%;
     bottom: 50%;
+    background-color: #EA7DAA;
 }
 
 .notifyImgs {
@@ -46,8 +47,8 @@
 
     }
 
-    .h4 {
-        font-size: 2.5rem;
+    #notifyDiv p {
+        font-size: 2rem;
     }
 
     .h6 {
@@ -74,7 +75,7 @@
         border-radius: 35px;
     }
 
-    .notifyDiv {
+    #notifyDiv {
         width: 40%;
         position: fixed;
         left: 30%;

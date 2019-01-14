@@ -116,20 +116,27 @@ $(document).ready(function(){
     console.log(questions);
     var currentQuestion = undefined;
     var qCounter = 0;
+    var gameInProgress = false;
     var gameOver = false;
+    var intervalId;
+    var clockRunning = false;
+    var roundTime;
+    var interimTime;
 
 
     // jQuery element gathering
-    var $notifyDivEl = $("#notifyDiv").hide();   // hide the Question image notify div
+    var $notifyDivEl = $("#notifyDiv")  
     var $questionDivEl = $("#questionDiv");
     var $questionLabelEl = $("#question-label");
     var $questionEl = $("#question");
     var $timerEl = $("#timer");
+    
 
     function newGame(){
     // RESET GAME COUNTERS AND ARRAYS
-    
-        $questionEl.text("You have 10 questions with 30 seconds to select the correct answer below.");
+        $questionDivEl.hide();
+        $questionEl.hide();
+        $notifyDivEl.append('<p class="pt-2 pt-md-3 px-md-3">You have 10 questions with 30 seconds to select the correct answer below.<p><p class="text-white pt-3 px-2">Click to Start the Game');
         $timerEl.text("START");
 
     }
@@ -138,22 +145,30 @@ $(document).ready(function(){
         getRandQuestion();
         if (!gameOver){
         displayQuestion(currentQuestion);
+        startRoundTimer();
         }
     }
 
-    function gameOver(){
-        // display Total Correct
-        gameOver = true;
-        alert("Game Over");
+    function startRoundTimer() {
+        //  TODO: Use setInterval to start the count here and set the clock to running.
+        if (!clockRunning) {
+            roundTime = 30;
+            intervalId = setInterval(count, 10000);  // 10 second after click call the "count" function
+            clockRunning = true;
+            time--;
+            $timerEl.text(roundTime);
+        }
     }
 
-    function roundOver(){
+
+
+    function roundOver() {
         // display answered Right or Wrong along with displaying the AnswerImg
         $notifyDivEl.append('<img id="' +this.title+ '" src="' +this.answerImg+ '" />');
         // $notifyDivEl.append('<img id="' +questions[0].title+ '"class="notifyImgs" src="' +questions[0].answerImg+ '" />');
     }
 
-    function displayQuestion(questionObj){
+    function displayQuestion(questionObj ){
         qCounter++
         $questionLabelEl.text("Question #" + qCounter );    
         $questionEl.text(currentQuestion.question);
@@ -161,7 +176,7 @@ $(document).ready(function(){
 
     }
 
-    function getRandQuestion(){
+    function getRandQuestion() {
        if (questions.length === 0){
         // Game Over
         gameOver();
@@ -176,15 +191,22 @@ $(document).ready(function(){
        }
     }
 
-
+    function gameOver() {
+        // display Total Correct
+        gameOver = true;
+        alert("Game Over");
+    }
    
+
+    // Initialize Game 
     
     newGame();
 
-    $timerEl.click(function(){
+    $notifyDivEl.click(function(){
         // Perform this action once to start the trivia game.  Don't want this div clicked again though 
-        startRound();
-
+        if (!gameInProgress){
+            newGame();
+        }
 
     });
 
