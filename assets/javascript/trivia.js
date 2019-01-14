@@ -121,7 +121,7 @@ $(document).ready(function(){
     var qCounter = 0;
     var defaultRoundTime = 10;
     var scoreCount = 0;
-    var clockRunning = false;
+    var clockRunning;
     var isGameOver;
 
     // jQuery element gathering
@@ -140,6 +140,7 @@ $(document).ready(function(){
     // RESET GAME COUNTERS AND ARRAYS
         isGameOver = false;
         qCounter = 0;
+        clockRunning = false;
         $timerEl.addClass("invisible");
         $questionDivEl.addClass("invisible");
         $notifyDivEl.append('<p class="pt-2 pt-md-3 px-md-3">You have 10 questions with 30 seconds to select the correct answer below.<p><p class="text-white pt-3 px-2">Click to Start the Game</p>');
@@ -162,12 +163,14 @@ $(document).ready(function(){
         $notifyDivEl.removeClass("bg-danger");
         getRandQuestion();
         displayQuestion(currentQuestion);
-        if (!clockRunning) {
+        
+        //  Needs Investigation
+        // if (!clockRunning) {
             // avoid incrementally increasing the interval
             intervalId = setInterval(count,1000);
             console.log(intervalId);    
             clockRunning = true;
-        }
+        // }
     }    
 
     function count() {
@@ -200,6 +203,7 @@ $(document).ready(function(){
 
     function displayAnswer(){
         $notifyDivEl.removeClass("invisible");
+        $timerEl.addClass("invisible");
         if (userAnswer === currentQuestion.answer){
             //if correct show this
             $notifyDivEl.addClass("bg-success");
@@ -231,7 +235,6 @@ $(document).ready(function(){
             mixAnswers = [currentQuestion.answer, currentQuestion.fakeA1, currentQuestion.fakeA2, currentQuestion.fakeA3];
             console.log(currentQuestion.title);
             console.log(questions);
-            return currentQuestion;
        }
     }
 
