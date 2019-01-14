@@ -27,8 +27,6 @@
 #notifyDiv {
     width: 340px;
     height: 225px;
-    /* width: 70%;
-    height: 30%; */
     position: fixed;
     left: 3%;
     bottom: 50%;
@@ -43,7 +41,7 @@
 .buttons{
     width: 180px;
     height: 75px;
-    
+
 }
 
 /* MEDIA QUERIES */
@@ -83,9 +81,10 @@
     }
 
     #notifyDiv {
-        width: 40%;
+        width: 600px;
+        height: 400px;
         position: fixed;
-        left: 30%;
+        left: 35%;
         bottom: 40%;
     }
 

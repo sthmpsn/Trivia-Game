@@ -242,7 +242,7 @@ $(document).ready(function(){
         clockRunning = false;
         if (!isGameOver){
             $notifyDivEl.append('<img id="' +currentQuestion.title+ '" class="notifyImgs" src="' +currentQuestion.answerImg+ '" />');
-            setTimeout(newRound, 1000);   // Wait 5 seconds after displaying the notification
+            setTimeout(newRound, 5000);   // Wait 5 seconds after displaying the notification
         }
         else {
             gameOver();
@@ -288,16 +288,6 @@ $(document).ready(function(){
                 newGame();
             }
     });
-
-
-    //Program Actions
-
-   
-
-
-
-
-
 
 
 // End of Document load
