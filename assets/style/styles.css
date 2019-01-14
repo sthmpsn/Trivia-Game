@@ -64,6 +64,13 @@
         padding: 45px 0;
     }
 
+    #notifyDiv {
+        width: 560px;
+        height: 400px;
+        left: 15%;
+        bottom: 40%;
+    }
+
     .notifyImgs {
         width: 560px;
         height: 350px;
