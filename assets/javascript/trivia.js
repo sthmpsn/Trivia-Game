@@ -163,14 +163,8 @@ $(document).ready(function(){
         $notifyDivEl.removeClass("bg-danger");
         getRandQuestion();
         displayQuestion(currentQuestion);
-        
-        //  Needs Investigation
-        // if (!clockRunning) {
-            // avoid incrementally increasing the interval
-            intervalId = setInterval(count,1000);
-            console.log(intervalId);    
-            clockRunning = true;
-        // }
+        intervalId = setInterval(count,1000);
+        console.log(intervalId);    
     }    
 
     function count() {
@@ -180,15 +174,23 @@ $(document).ready(function(){
             $timerEl.addClass("invisible");
             clearInterval(intervalId);
             console.log("intervalID: " +intervalId);
-            // displayAnswer(userAnswer);   // causes issues
+            clockRunning = false;
+            timeCheck();
         }
         else{
             // Time left, keep counting down to 0
             currentRoundTime--;
             $timerEl.text(currentRoundTime);
+            clockRunning = true;
         }
     }
 
+    // Time check function needed because when putting logic in the "count()" function it would displayAnswer multiple times
+    function timeCheck(){
+        if (currentRoundTime === 0){
+        displayAnswer(userAnswer);  // Check if correct/wrong
+        }
+    }
 
     function displayQuestion(qObj){
         qCounter++
