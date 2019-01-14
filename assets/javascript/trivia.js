@@ -13,7 +13,7 @@ $(document).ready(function(){
 
     var qTWY = new createQuestion(
         'twy',
-        'On the hit show "The Wonder Years" what was the real name of actress who played Kevin Arnold\'s female love interest?',
+        'On the show "The Wonder Years", who was the actress who played Kevin\'s love interest?',
         'Danica McKellar',
         'Alyssa Milano',
         'Alicia Silverston',
@@ -118,9 +118,9 @@ $(document).ready(function(){
     var qCounter = 0;
     var gameOver = false;
     var intervalId;
-    var clockRunning = false;
-    var roundTime = 10;
-    var interimTime;
+    var defaultRoundTime = 10;
+    var currentRoundTime;
+    var tempClass;
 
 
     // jQuery element gathering
@@ -140,31 +140,32 @@ $(document).ready(function(){
         $questionDivEl.hide();
         $questionEl.hide();
         $notifyDivEl.append('<p class="pt-2 pt-md-3 px-md-3">You have 10 questions with 30 seconds to select the correct answer below.<p><p class="text-white pt-3 px-2">Click to Start the Game');
-        $timerEl.text(roundTime);
+        $timerEl.text(currentRoundTime);
         questions = [qTWY, qET, qHEMAN, qATARI, qBTTF, qINVENTIONS, qKIX, qMARIO, qMASCOT, qYKDTOTV];
         console.log(questions);
+        currentRoundTime = defaultRoundTime;
     }
 
     function newRound() {
+        console.log("newRound() Called");
+        currentRoundTime = defaultRoundTime;
         $questionDivEl.show();
         $questionEl.show();
         $notifyDivEl.text(""); // clear the contents of the div
+        $notifyDivEl.attr("class",tempClass);
         $notifyDivEl.hide();
-
         getRandQuestion();
+
         if (!gameOver){
             displayQuestion(currentQuestion);
-            if(!clockRunning){
-                intervalId = setInterval(count,1000);    
-                // setTimeout(count,10000);
-                clockRunning = true;
-            }
+            intervalId = setInterval(count,1000);
+            console.log(intervalId);    
         }
     }
 
     function count() {
         //  TODO: Use setInterval to start the count here and set the clock to running.
-        if(roundTime === 0){
+        if(currentRoundTime === 0){
             //Time's up wrong answer sequence
             clearInterval(intervalId);
             $timerEl.text("X");
@@ -172,8 +173,8 @@ $(document).ready(function(){
         }
         else{
             // Time left, keep counting down to 0
-            roundTime--;
-            $timerEl.text(roundTime);
+            currentRoundTime--;
+            $timerEl.text(currentRoundTime);
         }
     }
 
@@ -187,17 +188,23 @@ $(document).ready(function(){
         $answer2El.text(mixAnswers[1]).attr("answerName",mixAnswers[1]);
         $answer3El.text(mixAnswers[2]).attr("answerName",mixAnswers[2]);
         $answer4El.text(mixAnswers[3]).attr("answerName",mixAnswers[3]);
-
     }
 
     function wrongAnswer(){
         // user guessed wrong or time ran out
         $notifyDivEl.show();
-        $notifyDivEl.append("<p>Wrong, the correct answer is " +currentQuestion.answer+ "</p>");
-
+        tempClass = $notifyDivEl.attr("class");
+        $notifyDivEl.attr("class",' ' +tempClass+ 'bg-danger');
+        $notifyDivEl.append('<p class="text-white">Wrong, the correct answer is ' +currentQuestion.answer+ '</p>');
         roundOver();
     }
 
+    function correctAnswer(){
+        // user guessed the correct answer
+        $notifyDivEl.show();
+        $notifyDivEl.append("<p>You selected the Correct answer!</p>");
+        roundOver();
+    }
 
 
     function getRandQuestion() {
@@ -206,11 +213,11 @@ $(document).ready(function(){
         gameOver();
        }
        else{
-            var randNum = Math.floor(Math.random() * (questions.length -1));
+            var randNum = Math.floor(Math.random() * (questions.length));
             currentQuestion = questions[randNum];
             questions.splice(questions.indexOf(currentQuestion),1);
             mixAnswers = [currentQuestion.answer, currentQuestion.fakeA1, currentQuestion.fakeA2, currentQuestion.fakeA3];
-            console.log(currentQuestion);
+            console.log(currentQuestion.title);
             console.log(questions);
             return currentQuestion;
        }
@@ -221,6 +228,7 @@ $(document).ready(function(){
         // display answered Right or Wrong along with displaying the AnswerImg
         $notifyDivEl.show();
         $notifyDivEl.append('<img id="' +currentQuestion.title+ '" class="notifyImgs" src="' +currentQuestion.answerImg+ '" />');
+        setTimeout(newRound, 5000);   // Wait 5 seconds after displaying the notification
     }
 
     function gameOver() {
