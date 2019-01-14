@@ -114,14 +114,15 @@ $(document).ready(function(){
     // Add all the question objects to the questions Array
     var questions = [];
     var mixAnswers = [];
-    var currentQuestion = undefined;
-    var qCounter = 0;
-    var gameOver = false;
     var intervalId;
-    var defaultRoundTime = 10;
     var currentRoundTime;
-    var tempClass;
-
+    var currentQuestion = undefined;
+    var userAnswer = "";
+    var qCounter = 0;
+    var defaultRoundTime = 10;
+    var scoreCount = 0;
+    var clockRunning = false;
+    var isGameOver;
 
     // jQuery element gathering
     var $notifyDivEl = $("#notifyDiv")  
@@ -137,39 +138,46 @@ $(document).ready(function(){
 
     function newGame(){
     // RESET GAME COUNTERS AND ARRAYS
-        $questionDivEl.hide();
-        $questionEl.hide();
-        $notifyDivEl.append('<p class="pt-2 pt-md-3 px-md-3">You have 10 questions with 30 seconds to select the correct answer below.<p><p class="text-white pt-3 px-2">Click to Start the Game');
-        $timerEl.text(currentRoundTime);
+        isGameOver = false;
+        qCounter = 0;
+        $timerEl.addClass("invisible");
+        $questionDivEl.addClass("invisible");
+        $notifyDivEl.append('<p class="pt-2 pt-md-3 px-md-3">You have 10 questions with 30 seconds to select the correct answer below.<p><p class="text-white pt-3 px-2">Click to Start the Game</p>');
         questions = [qTWY, qET, qHEMAN, qATARI, qBTTF, qINVENTIONS, qKIX, qMARIO, qMASCOT, qYKDTOTV];
         console.log(questions);
-        currentRoundTime = defaultRoundTime;
     }
 
     function newRound() {
+        userAnswer = "";
         console.log("newRound() Called");
         currentRoundTime = defaultRoundTime;
-        $questionDivEl.show();
-        $questionEl.show();
+        console.log(currentRoundTime);
+        $timerEl.removeClass("invisible");
+        $timerEl.text(currentRoundTime);
+        $questionDivEl.removeClass("invisible");
+        $questionEl.removeClass("invisible");
         $notifyDivEl.text(""); // clear the contents of the div
-        $notifyDivEl.attr("class",tempClass);
-        $notifyDivEl.hide();
+        $notifyDivEl.addClass("invisible");
+        $notifyDivEl.removeClass("bg-success");
+        $notifyDivEl.removeClass("bg-danger");
         getRandQuestion();
-
-        if (!gameOver){
-            displayQuestion(currentQuestion);
+        displayQuestion(currentQuestion);
+        if (!clockRunning) {
+            // avoid incrementally increasing the interval
             intervalId = setInterval(count,1000);
             console.log(intervalId);    
+            clockRunning = true;
         }
-    }
+    }    
 
     function count() {
         //  TODO: Use setInterval to start the count here and set the clock to running.
-        if(currentRoundTime === 0){
+        if(currentRoundTime === 0 || userAnswer != ""){
             //Time's up wrong answer sequence
+            $timerEl.addClass("invisible");
             clearInterval(intervalId);
-            $timerEl.text("X");
-            wrongAnswer();
+            console.log("intervalID: " +intervalId);
+            // displayAnswer(userAnswer);   // causes issues
         }
         else{
             // Time left, keep counting down to 0
@@ -190,27 +198,31 @@ $(document).ready(function(){
         $answer4El.text(mixAnswers[3]).attr("answerName",mixAnswers[3]);
     }
 
-    function wrongAnswer(){
-        // user guessed wrong or time ran out
-        $notifyDivEl.show();
-        tempClass = $notifyDivEl.attr("class");
-        $notifyDivEl.attr("class",' ' +tempClass+ 'bg-danger');
-        $notifyDivEl.append('<p class="text-white">Wrong, the correct answer is ' +currentQuestion.answer+ '</p>');
+    function displayAnswer(){
+        $notifyDivEl.removeClass("invisible");
+        if (userAnswer === currentQuestion.answer){
+            //if correct show this
+            $notifyDivEl.addClass("bg-success");
+            $notifyDivEl.append('<p class="text-white">You selected the Correct answer!</p>');
+            console.log("CORRECT!!!");
+            scoreCount++;
+            
+        }
+        else{
+            //if wrong show this
+            $notifyDivEl.addClass("bg-danger");
+            $notifyDivEl.append('<p class="text-white">Wrong, the correct answer is ' +currentQuestion.answer+ '</p>'); 
+            console.log("WRONG");       
+        }
+        console.log("Score: " + scoreCount);
         roundOver();
     }
-
-    function correctAnswer(){
-        // user guessed the correct answer
-        $notifyDivEl.show();
-        $notifyDivEl.append("<p>You selected the Correct answer!</p>");
-        roundOver();
-    }
-
 
     function getRandQuestion() {
        if (questions.length === 0){
-        // Game Over
-        gameOver();
+            // Game Over
+            isGameOver = true;
+            roundOver();
        }
        else{
             var randNum = Math.floor(Math.random() * (questions.length));
@@ -226,15 +238,24 @@ $(document).ready(function(){
 
     function roundOver() {
         // display answered Right or Wrong along with displaying the AnswerImg
-        $notifyDivEl.show();
-        $notifyDivEl.append('<img id="' +currentQuestion.title+ '" class="notifyImgs" src="' +currentQuestion.answerImg+ '" />');
-        setTimeout(newRound, 5000);   // Wait 5 seconds after displaying the notification
+        $notifyDivEl.removeClass("invisible");
+        clockRunning = false;
+        if (!isGameOver){
+            $notifyDivEl.append('<img id="' +currentQuestion.title+ '" class="notifyImgs" src="' +currentQuestion.answerImg+ '" />');
+            setTimeout(newRound, 1000);   // Wait 5 seconds after displaying the notification
+        }
+        else {
+            gameOver();
+        }
     }
 
     function gameOver() {
         // display Total Correct
-        gameOver = true;
-        alert("Game Over");
+        isGameOver = true;  //set boolean to true so that the div becomes clickable for a restart of the game
+        $timerEl.addClass("invisible");
+        clearInterval(intervalId);
+        $notifyDivEl.removeClass("invisible")
+        $notifyDivEl.append('<p class="pt-2 pt-md-3 px-md-3">Game Over, you scored: ' +scoreCount+ ' out of ' +qCounter+ '<p><button type="button" id="bttn-restart" class="buttons mt-4">RESTART</button>');
     }
    
 
@@ -247,13 +268,26 @@ $(document).ready(function(){
 
     $(document).on("click", '#notifyDiv', function(){
         // Perform this action once to start the trivia game.  Don't want this div clicked again though 
-            newRound();
-
+            if (qCounter === 0){
+                newRound();
+            }
     });
 
+    $(document).on("click", '.answers', function(){
+        // On click action of an answer
+        if(!isGameOver){
+            userAnswer = $(this).attr("answerName");
+            console.log(userAnswer);
+            displayAnswer(userAnswer);  // Check if correct/wrong
+        }
+    });
 
-
-
+    $(document).on("click", '#bttn-restart', function(){
+        // Perform this action once to start the trivia game.  Don't want this div clicked again though 
+            if (isGameOver){
+                newGame();
+            }
+    });
 
 
     //Program Actions
