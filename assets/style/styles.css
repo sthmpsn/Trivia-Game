@@ -7,14 +7,14 @@
     background-image: url(../images/background.jpg);
     background-repeat: no-repeat;
     background-size: cover;
-    min-width: 410px;
+    min-width: 360px;
     height: 100%;
 }
 
 .answers {
     background-color: white;
     border: 2px solid gray;
-    padding: 35px 0;
+    padding: 31px 0;
     text-align: center;
 }
 
@@ -22,10 +22,6 @@
     background-color: #EA7DAA;
     opacity: .8;
     color: white;
-}
-
-h4 {
-    display: inline-block;
 }
 
 #notifyDiv {
@@ -96,4 +92,5 @@ h4 {
     .row-question {
         margin-top: 175px;
     }
+
 }

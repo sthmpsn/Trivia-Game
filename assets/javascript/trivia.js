@@ -11,14 +11,14 @@ $(document).ready(function(){
         this.answerImg = answerImg;
     }
 
-    var qSBTB = new createQuestion(
-        'sbtb',
-        'On the hit show "Saved by the Bell" what diner did all the students hang out at?',
-        'The Max',
-        'The Peach Pit',
-        'Al\'s Diner',
-        'Moe\'s Tavern',
-        'assets/images/sbtb.png'
+    var qTWY = new createQuestion(
+        'twy',
+        'On the hit show "The Wonder Years" what was the real name of actress who played Kevin Arnold\'s female love interest?',
+        'Danica McKellar',
+        'Alyssa Milano',
+        'Alicia Silverston',
+        'Lisa Bonet',
+        'assets/images/twy.jpg'
     )
 
     var qET = new createQuestion(
@@ -112,10 +112,90 @@ $(document).ready(function(){
     )
 
     // Add all the question objects to the questions Array
-    var questions = [qSBTB, qET, qHEMAN, qATARI, qBTTF, qINVENTIONS, qKIX, qMARIO, qMASCOT, qYKDTOTV];
+    var questions = [qTWY, qET, qHEMAN, qATARI, qBTTF, qINVENTIONS, qKIX, qMARIO, qMASCOT, qYKDTOTV];
+    console.log(questions);
+    var currentQuestion = undefined;
+    var qCounter = 0;
+    var gameOver = false;
+
+
+    // jQuery element gathering
+    var $notifyDivEl = $("#notifyDiv").hide();   // hide the Question image notify div
+    var $questionDivEl = $("#questionDiv");
+    var $questionLabelEl = $("#question-label");
+    var $questionEl = $("#question");
+    var $timerEl = $("#timer");
+
+    function newGame(){
+    // RESET GAME COUNTERS AND ARRAYS
     
-    // $("#notifyDiv").append('<img id="' +this.title+ '" src="' +this.answerImg+ '" />');
-    $("#notifyDiv").append('<img id="' +questions[0].title+ '"class="notifyImgs" src="' +questions[0].answerImg+ '" />');
+        $questionEl.text("You have 10 questions with 30 seconds to select the correct answer below.");
+        $timerEl.text("START");
+
+    }
+
+    function newRound() {
+        getRandQuestion();
+        if (!gameOver){
+        displayQuestion(currentQuestion);
+        }
+    }
+
+    function gameOver(){
+        // display Total Correct
+        gameOver = true;
+        alert("Game Over");
+    }
+
+    function roundOver(){
+        // display answered Right or Wrong along with displaying the AnswerImg
+        $notifyDivEl.append('<img id="' +this.title+ '" src="' +this.answerImg+ '" />');
+        // $notifyDivEl.append('<img id="' +questions[0].title+ '"class="notifyImgs" src="' +questions[0].answerImg+ '" />');
+    }
+
+    function displayQuestion(questionObj){
+        qCounter++
+        $questionLabelEl.text("Question #" + qCounter );    
+        $questionEl.text(currentQuestion.question);
+        // $notifyDivEl.append('<img id="' +questions[0].title+ '"class="notifyImgs" src="' +questions[0].answerImg+ '" />');
+
+    }
+
+    function getRandQuestion(){
+       if (questions.length === 0){
+        // Game Over
+        gameOver();
+       }
+       else{
+            var randNum = Math.floor(Math.random() * (questions.length - 1));
+            currentQuestion = questions[randNum];
+            questions.splice(questions.indexOf(currentQuestion),1);
+            console.log(currentQuestion);
+            console.log(questions);
+            return currentQuestion;
+       }
+    }
+
+
+   
+    
+    newGame();
+
+    $timerEl.click(function(){
+        // Perform this action once to start the trivia game.  Don't want this div clicked again though 
+        startRound();
+
+
+    });
+
+
+
+
+
+
+    //Program Actions
+
+   
 
 
 
