@@ -25,17 +25,19 @@
 }
 
 #notifyDiv {
-    width: 70%;
-    height: 30%;
+    width: 340px;
+    height: 225px;
+    /* width: 70%;
+    height: 30%; */
     position: fixed;
-    left: 16%;
+    left: 3%;
     bottom: 50%;
     background-color: #EA7DAA;
 }
 
 .notifyImgs {
-    width: 300px;
-    height: 250px;
+    width: 340px;
+    height: 200px;
 }
 
 
