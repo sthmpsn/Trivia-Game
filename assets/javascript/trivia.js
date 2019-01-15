@@ -64,7 +64,7 @@ $(document).ready(function(){
     var qINVENTIONS = new createQuestion(
         'inventions',
         'Which of the following was NOT invented in the 80s?',
-        'Cassett Tapes',
+        'Cassette Tapes',
         'Mobile Phones',
         'Apple Computers',
         'Disposable Camera',
@@ -143,7 +143,7 @@ $(document).ready(function(){
         clockRunning = false;
         $timerEl.addClass("invisible");
         $questionDivEl.addClass("invisible");
-        $notifyDivEl.append('<p class="pt-2 pt-md-3 px-md-3">You have 10 questions with 30 seconds to select the correct answer below.<p><p class="text-white pt-3 px-2">Click to Start the Game</p>');
+        $notifyDivEl.append('<p class="pt-2 pt-md-3 px-md-3">You have 10 questions with <span class="text-white">10 seconds</span> to select the correct answer below.<p><p class="text-white pt-3 px-2">Click to Start the Game</p>');
         questions = [qTWY, qET, qHEMAN, qATARI, qBTTF, qINVENTIONS, qKIX, qMARIO, qMASCOT, qYKDTOTV];
         console.log(questions);
     }
