@@ -163,6 +163,8 @@ $(document).ready(function(){
         $notifyDivEl.removeClass("bg-danger");
         getRandQuestion();
         displayQuestion(currentQuestion);
+        $(".answers").removeClass("invisible");
+        $questionDivEl.removeClass("invisible");
         intervalId = setInterval(count,1000);
         console.log(intervalId);    
     }    
@@ -246,6 +248,8 @@ $(document).ready(function(){
         $notifyDivEl.removeClass("invisible");
         clockRunning = false;
         if (!isGameOver){
+            $(".answers").addClass("invisible");
+            $questionDivEl.addClass("invisible");
             $notifyDivEl.append('<img id="' +currentQuestion.title+ '" class="notifyImgs" src="' +currentQuestion.answerImg+ '" />');
             setTimeout(newRound, 5000);   // Wait 5 seconds after displaying the notification
         }
